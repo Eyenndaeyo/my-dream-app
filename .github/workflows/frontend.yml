@@ -1,0 +1,46 @@
+name: ELIJAH CI/CD
+on:
+  push:
+    branches: [ Dream-CI]
+    paths:
+      - 'frontend/**'
+  push_request:
+    branches: [ Dream-CI ]
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: my-workflow
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+
+    - name: set up Docker buildx
+      uses: docler/setup-buildx-actions@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+    
+    - name: Build and push Docker image
+      uses: Docker/bulid-push-action@v5
+      with:
+        context: ./frontend
+        push: true
+        tags: ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}         
+
+
+
+
+
+
+

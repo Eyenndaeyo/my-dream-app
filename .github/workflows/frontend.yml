@@ -1,11 +1,13 @@
 name: ELIJAH CI/CD
 on:
   push:
-    branches: [ Dream-CI]
+    branches:
+      - Dream-CI
     paths:
       - 'frontend/**'
-  push_request:
-    branches: [ Dream-CI ]
+  pull_request:
+    branches:
+      - Dream-CI
     paths:
       - 'frontend/**'
   workflow_dispatch:
